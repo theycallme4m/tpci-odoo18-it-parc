@@ -1,0 +1,211 @@
+/* ============================================================ */
+/*  IT Parc Dashboard - Styles                                  */
+/* ============================================================ */
+
+.it-parc-dashboard {
+    padding: 24px;
+    background: #f5f7fa;
+    min-height: calc(100vh - 60px);
+    font-family: 'Roboto', sans-serif;
+}
+
+/* -------------------------------------------------------------- */
+/*  Loading                                                        */
+/* -------------------------------------------------------------- */
+.it-parc-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: #6c757d;
+}
+
+.it-parc-loading p {
+    margin-top: 16px;
+    font-size: 1rem;
+}
+
+/* -------------------------------------------------------------- */
+/*  Header                                                        */
+/* -------------------------------------------------------------- */
+.it-parc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #1F3864 0%, #274472 100%);
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 16px rgba(31, 56, 100, 0.3);
+}
+
+.it-parc-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.it-parc-header-icon {
+    font-size: 2.5rem;
+    opacity: 0.85;
+}
+
+.it-parc-header h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+}
+
+.it-parc-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* -------------------------------------------------------------- */
+/*  KPIs                                                          */
+/* -------------------------------------------------------------- */
+.it-parc-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+@media (max-width: 1200px) {
+    .it-parc-kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .it-parc-kpis {
+        grid-template-columns: 1fr;
+    }
+}
+
+.it-parc-kpi {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border-left: 4px solid transparent;
+}
+
+.it-parc-kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.it-parc-kpi-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.it-parc-kpi-body {
+    flex: 1;
+}
+
+.it-parc-kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.it-parc-kpi-label {
+    font-size: 0.82rem;
+    color: #6c757d;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Couleurs par KPI */
+.it-parc-kpi-total { border-left-color: #1F3864; }
+.it-parc-kpi-total .it-parc-kpi-icon { background: #1F3864; }
+.it-parc-kpi-total .it-parc-kpi-value { color: #1F3864; }
+
+.it-parc-kpi-affectes { border-left-color: #28a745; }
+.it-parc-kpi-affectes .it-parc-kpi-icon { background: #28a745; }
+.it-parc-kpi-affectes .it-parc-kpi-value { color: #28a745; }
+
+.it-parc-kpi-maintenance { border-left-color: #fd7e14; }
+.it-parc-kpi-maintenance .it-parc-kpi-icon { background: #fd7e14; }
+.it-parc-kpi-maintenance .it-parc-kpi-value { color: #fd7e14; }
+
+.it-parc-kpi-alertes { border-left-color: #dc3545; }
+.it-parc-kpi-alertes .it-parc-kpi-icon { background: #dc3545; }
+.it-parc-kpi-alertes .it-parc-kpi-value { color: #dc3545; }
+
+.it-parc-kpi-contrats { border-left-color: #6f42c1; }
+.it-parc-kpi-contrats .it-parc-kpi-icon { background: #6f42c1; }
+.it-parc-kpi-contrats .it-parc-kpi-value { color: #6f42c1; }
+
+.it-parc-kpi-cout { border-left-color: #20c997; cursor: default; }
+.it-parc-kpi-cout .it-parc-kpi-icon { background: #20c997; }
+.it-parc-kpi-cout .it-parc-kpi-value { color: #20c997; }
+.it-parc-kpi-cout:hover { transform: none; }
+
+/* -------------------------------------------------------------- */
+/*  Graphique                                                      */
+/* -------------------------------------------------------------- */
+.it-parc-chart-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.it-parc-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1F3864;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.it-parc-chart-container {
+    overflow-x: auto;
+    padding: 8px 0;
+}
+
+.it-parc-svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.it-parc-bar {
+    transition: opacity 0.2s ease;
+}
+
+.it-parc-bar:hover {
+    opacity: 0.8;
+}
+
+.it-parc-empty {
+    text-align: center;
+    color: #6c757d;
+    padding: 40px;
+}
+
+.it-parc-empty i {
+    display: block;
+    margin-bottom: 12px;
+}

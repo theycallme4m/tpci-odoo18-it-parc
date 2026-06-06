@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================ -->
+        <!--  Catégories                                                   -->
+        <!-- ============================================================ -->
+        <record id="cat_poste_travail" model="it.categorie">
+            <field name="name">Poste de travail</field>
+            <field name="description">Ordinateurs de bureau et portables</field>
+        </record>
+        <record id="cat_serveur" model="it.categorie">
+            <field name="name">Serveur</field>
+            <field name="description">Serveurs physiques et virtuels</field>
+        </record>
+        <record id="cat_reseau" model="it.categorie">
+            <field name="name">Équipement réseau</field>
+            <field name="description">Switchs, routeurs, points d'accès Wi-Fi</field>
+        </record>
+        <record id="cat_imprimante" model="it.categorie">
+            <field name="name">Imprimante</field>
+            <field name="description">Imprimantes et multifonctions</field>
+        </record>
+        <record id="cat_telephone" model="it.categorie">
+            <field name="name">Téléphone IP</field>
+            <field name="description">Téléphones VoIP</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!--  Départements démo                                            -->
+        <!-- ============================================================ -->
+        <record id="dept_dsi" model="hr.department">
+            <field name="name">DSI</field>
+        </record>
+        <record id="dept_compta" model="hr.department">
+            <field name="name">Comptabilité</field>
+        </record>
+        <record id="dept_commercial" model="hr.department">
+            <field name="name">Commercial</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!--  Employés démo                                               -->
+        <!-- ============================================================ -->
+        <record id="emp_kouassi" model="hr.employee">
+            <field name="name">Kouassi Aman</field>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="job_title">Technicien IT</field>
+        </record>
+        <record id="emp_diallo" model="hr.employee">
+            <field name="name">Diallo Fatoumata</field>
+            <field name="department_id" ref="dept_compta"/>
+            <field name="job_title">Comptable</field>
+        </record>
+        <record id="emp_bamba" model="hr.employee">
+            <field name="name">Bamba Souleymane</field>
+            <field name="department_id" ref="dept_commercial"/>
+            <field name="job_title">Commercial senior</field>
+        </record>
+        <record id="emp_ouattara" model="hr.employee">
+            <field name="name">Ouattara Ibrahim</field>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="job_title">Administrateur systèmes</field>
+        </record>
+        <record id="emp_kone" model="hr.employee">
+            <field name="name">Koné Mariam</field>
+            <field name="department_id" ref="dept_commercial"/>
+            <field name="job_title">Responsable ventes</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!--  Fournisseurs démo                                            -->
+        <!-- ============================================================ -->
+        <record id="partner_dell" model="res.partner">
+            <field name="name">Dell Technologies CI</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+        </record>
+        <record id="partner_cisco" model="res.partner">
+            <field name="name">Cisco Systems West Africa</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+        </record>
+        <record id="partner_orange" model="res.partner">
+            <field name="name">Orange Business Services CI</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!--  Équipements (10 minimum)                                    -->
+        <!-- ============================================================ -->
+        <record id="equip_001" model="it.equipement">
+            <field name="name">Dell OptiPlex 7090</field>
+            <field name="reference">EQ-0001</field>
+            <field name="categorie_id" ref="cat_poste_travail"/>
+            <field name="marque">Dell</field>
+            <field name="modele">OptiPlex 7090</field>
+            <field name="serial_number">DELL-7090-001</field>
+            <field name="date_achat">2023-03-15</field>
+            <field name="valeur_achat">650000</field>
+            <field name="date_garantie">2026-03-15</field>
+            <field name="localisation">Abidjan - Bureau 101</field>
+            <field name="employee_id" ref="emp_kouassi"/>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_002" model="it.equipement">
+            <field name="name">Dell Latitude 5430</field>
+            <field name="reference">EQ-0002</field>
+            <field name="categorie_id" ref="cat_poste_travail"/>
+            <field name="marque">Dell</field>
+            <field name="modele">Latitude 5430</field>
+            <field name="serial_number">DELL-LAT-002</field>
+            <field name="date_achat">2022-09-01</field>
+            <field name="valeur_achat">820000</field>
+            <field name="date_garantie">2025-09-01</field>
+            <field name="localisation">Abidjan - Bureau 205</field>
+            <field name="employee_id" ref="emp_diallo"/>
+            <field name="department_id" ref="dept_compta"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_003" model="it.equipement">
+            <field name="name">Dell PowerEdge R750</field>
+            <field name="reference">EQ-0003</field>
+            <field name="categorie_id" ref="cat_serveur"/>
+            <field name="marque">Dell</field>
+            <field name="modele">PowerEdge R750</field>
+            <field name="serial_number">DELL-R750-001</field>
+            <field name="date_achat">2022-01-10</field>
+            <field name="valeur_achat">4500000</field>
+            <field name="date_garantie">2025-01-10</field>
+            <field name="localisation">Abidjan - Salle serveurs</field>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_004" model="it.equipement">
+            <field name="name">Cisco Catalyst 2960X</field>
+            <field name="reference">EQ-0004</field>
+            <field name="categorie_id" ref="cat_reseau"/>
+            <field name="marque">Cisco</field>
+            <field name="modele">Catalyst 2960X-48FPD-L</field>
+            <field name="serial_number">CISCO-2960-001</field>
+            <field name="date_achat">2021-06-20</field>
+            <field name="valeur_achat">1200000</field>
+            <field name="date_garantie">2024-06-20</field>
+            <field name="localisation">Abidjan - Salle réseau</field>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="state">maintenance</field>
+        </record>
+
+        <record id="equip_005" model="it.equipement">
+            <field name="name">HP LaserJet Pro 4001</field>
+            <field name="reference">EQ-0005</field>
+            <field name="categorie_id" ref="cat_imprimante"/>
+            <field name="marque">HP</field>
+            <field name="modele">LaserJet Pro 4001dne</field>
+            <field name="serial_number">HP-LJ-4001-001</field>
+            <field name="date_achat">2023-11-05</field>
+            <field name="valeur_achat">380000</field>
+            <field name="date_garantie">2026-11-05</field>
+            <field name="localisation">Abidjan - Salle commune</field>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_006" model="it.equipement">
+            <field name="name">Cisco IP Phone 8841</field>
+            <field name="reference">EQ-0006</field>
+            <field name="categorie_id" ref="cat_telephone"/>
+            <field name="marque">Cisco</field>
+            <field name="modele">IP Phone 8841</field>
+            <field name="serial_number">CISCO-TEL-001</field>
+            <field name="date_achat">2023-02-28</field>
+            <field name="valeur_achat">185000</field>
+            <field name="date_garantie">2026-02-28</field>
+            <field name="localisation">Abidjan - Bureau 101</field>
+            <field name="employee_id" ref="emp_kouassi"/>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_007" model="it.equipement">
+            <field name="name">Dell XPS 15 9520</field>
+            <field name="reference">EQ-0007</field>
+            <field name="categorie_id" ref="cat_poste_travail"/>
+            <field name="marque">Dell</field>
+            <field name="modele">XPS 15 9520</field>
+            <field name="serial_number">DELL-XPS-007</field>
+            <field name="date_achat">2024-01-15</field>
+            <field name="valeur_achat">1350000</field>
+            <field name="date_garantie">2027-01-15</field>
+            <field name="localisation">Abidjan - Bureau 310</field>
+            <field name="employee_id" ref="emp_bamba"/>
+            <field name="department_id" ref="dept_commercial"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_008" model="it.equipement">
+            <field name="name">Cisco Catalyst 9200</field>
+            <field name="reference">EQ-0008</field>
+            <field name="categorie_id" ref="cat_reseau"/>
+            <field name="marque">Cisco</field>
+            <field name="modele">Catalyst 9200-24P</field>
+            <field name="serial_number">CISCO-9200-002</field>
+            <field name="date_achat">2022-04-10</field>
+            <field name="valeur_achat">980000</field>
+            <field name="date_garantie">2025-04-10</field>
+            <field name="localisation">Bouaké - Salle réseau</field>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_009" model="it.equipement">
+            <field name="name">Dell Latitude 3540</field>
+            <field name="reference">EQ-0009</field>
+            <field name="categorie_id" ref="cat_poste_travail"/>
+            <field name="marque">Dell</field>
+            <field name="modele">Latitude 3540</field>
+            <field name="serial_number">DELL-LAT-009</field>
+            <field name="date_achat">2024-03-20</field>
+            <field name="valeur_achat">590000</field>
+            <field name="date_garantie">2027-03-20</field>
+            <field name="localisation">Abidjan - Bureau 220</field>
+            <field name="employee_id" ref="emp_ouattara"/>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <record id="equip_010" model="it.equipement">
+            <field name="name">HP Color LaserJet Pro M479</field>
+            <field name="reference">EQ-0010</field>
+            <field name="categorie_id" ref="cat_imprimante"/>
+            <field name="marque">HP</field>
+            <field name="modele">Color LaserJet Pro MFP M479fdw</field>
+            <field name="serial_number">HP-M479-010</field>
+            <field name="date_achat">2021-08-15</field>
+            <field name="valeur_achat">550000</field>
+            <field name="date_garantie">2024-08-15</field>
+            <field name="localisation">Bouaké - Bureau direction</field>
+            <field name="state">retire</field>
+        </record>
+
+        <record id="equip_011" model="it.equipement">
+            <field name="name">Dell OptiPlex 5090</field>
+            <field name="reference">EQ-0011</field>
+            <field name="categorie_id" ref="cat_poste_travail"/>
+            <field name="marque">Dell</field>
+            <field name="modele">OptiPlex 5090 SFF</field>
+            <field name="serial_number">DELL-5090-011</field>
+            <field name="date_achat">2023-07-01</field>
+            <field name="valeur_achat">480000</field>
+            <field name="date_garantie">2026-07-01</field>
+            <field name="localisation">Abidjan - Bureau 115</field>
+            <field name="employee_id" ref="emp_kone"/>
+            <field name="department_id" ref="dept_commercial"/>
+            <field name="state">affecte</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!--  Affectations historiques                                     -->
+        <!-- ============================================================ -->
+        <record id="affect_001" model="it.affectation">
+            <field name="equipement_id" ref="equip_001"/>
+            <field name="employee_id" ref="emp_kouassi"/>
+            <field name="department_id" ref="dept_dsi"/>
+            <field name="date_debut">2023-03-15</field>
+            <field name="motif">Affectation initiale</field>
+        </record>
+
+        <record id="affect_002" model="it.affectation">
+            <field name="equipement_id" ref="equip_002"/>
+            <field name="employee_id" ref="emp_diallo"/>
+            <field name="department_id" ref="dept_compta"/>
+            <field name="date_debut">2022-09-01</field>
+            <field name="motif">Affectation initiale</field>
+        </record>
+
+        <record id="affect_003" model="it.affectation">
+            <field name="equipement_id" ref="equip_007"/>
+            <field name="employee_id" ref="emp_bamba"/>
+            <field name="department_id" ref="dept_commercial"/>
+            <field name="date_debut">2024-01-15</field>
+            <field name="motif">Affectation initiale</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!--  Contrats fournisseurs (3 minimum)                           -->
+        <!-- ============================================================ -->
+        <record id="contrat_dell_maint" model="it.contrat">
+            <field name="name">CTR-DELL-2024-001</field>
+            <field name="fournisseur_id" ref="partner_dell"/>
+            <field name="type_contrat">maintenance</field>
+            <field name="date_debut">2024-01-01</field>
+            <field name="date_fin">2026-08-15</field>
+            <field name="montant">3200000</field>
+            <field name="description">Contrat de maintenance matérielle - Serveurs et postes Dell</field>
+            <field name="equipement_ids" eval="[(4, ref('equip_001')), (4, ref('equip_002')), (4, ref('equip_003'))]"/>
+        </record>
+
+        <record id="contrat_cisco_support" model="it.contrat">
+            <field name="name">CTR-CISCO-2023-001</field>
+            <field name="fournisseur_id" ref="partner_cisco"/>
+            <field name="type_contrat">support</field>
+            <field name="date_debut">2023-06-01</field>
+            <field name="date_fin">2026-07-20</field>
+            <field name="montant">1850000</field>
+            <field name="description">Support technique SmartNet - Équipements réseau Cisco</field>
+            <field name="equipement_ids" eval="[(4, ref('equip_004')), (4, ref('equip_008'))]"/>
+        </record>
+
+        <record id="contrat_orange_licence" model="it.contrat">
+            <field name="name">CTR-OBS-2025-001</field>
+            <field name="fournisseur_id" ref="partner_orange"/>
+            <field name="type_contrat">licence</field>
+            <field name="date_debut">2025-01-01</field>
+            <field name="date_fin">2025-12-31</field>
+            <field name="montant">2400000</field>
+            <field name="description">Licence connectivité MPLS multi-sites - Abidjan + Bouaké</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!--  Interventions (5 minimum)                                   -->
+        <!-- ============================================================ -->
+        <record id="interv_001" model="it.intervention">
+            <field name="name">Remplacement disque dur - EQ-0001</field>
+            <field name="equipement_id" ref="equip_001"/>
+            <field name="type_intervention">corrective</field>
+            <field name="technicien_id" ref="emp_kouassi"/>
+            <field name="date_debut">2024-02-10 08:00:00</field>
+            <field name="date_fin">2024-02-10 11:30:00</field>
+            <field name="cout">85000</field>
+            <field name="description">Disque SSD défaillant - bruits anormaux et erreurs SMART</field>
+            <field name="rapport">Remplacement SSD 512 Go par SSD 1 To. Migration données réussie. Système stable.</field>
+            <field name="state">termine</field>
+        </record>
+
+        <record id="interv_002" model="it.intervention">
+            <field name="name">Maintenance préventive serveur PowerEdge</field>
+            <field name="equipement_id" ref="equip_003"/>
+            <field name="type_intervention">preventive</field>
+            <field name="technicien_id" ref="emp_ouattara"/>
+            <field name="date_debut">2024-06-15 09:00:00</field>
+            <field name="date_fin">2024-06-15 13:00:00</field>
+            <field name="cout">120000</field>
+            <field name="description">Maintenance semestrielle programmée : nettoyage, vérification hardware, mises à jour firmware</field>
+            <field name="rapport">Nettoyage ventilateurs, remplacement pâte thermique, mise à jour iDRAC 6.10.30. RAS.</field>
+            <field name="state">termine</field>
+        </record>
+
+        <record id="interv_003" model="it.intervention">
+            <field name="name">Diagnostic switch Catalyst 2960X - panne</field>
+            <field name="equipement_id" ref="equip_004"/>
+            <field name="type_intervention">corrective</field>
+            <field name="technicien_id" ref="emp_kouassi"/>
+            <field name="date_debut">2025-05-20 14:00:00</field>
+            <field name="date_fin">2025-05-21 10:00:00</field>
+            <field name="cout">0</field>
+            <field name="description">Switch ne répond plus - ports trunk inaccessibles</field>
+            <field name="rapport">Réinitialisation configuration, mise à jour IOS. Problème persistant sur 8 ports. En attente pièce de rechange.</field>
+            <field name="state">en_cours</field>
+        </record>
+
+        <record id="interv_004" model="it.intervention">
+            <field name="name">Nettoyage et calibrage imprimante HP M479</field>
+            <field name="equipement_id" ref="equip_010"/>
+            <field name="type_intervention">preventive</field>
+            <field name="technicien_id" ref="emp_kouassi"/>
+            <field name="date_debut">2024-03-08 10:00:00</field>
+            <field name="date_fin">2024-03-08 12:00:00</field>
+            <field name="cout">35000</field>
+            <field name="description">Maintenance annuelle : nettoyage têtes d'impression, calibrage couleur, test bacs</field>
+            <field name="rapport">Intervention complète. Qualité impression restaurée. Toner remplacé.</field>
+            <field name="state">termine</field>
+        </record>
+
+        <record id="interv_005" model="it.intervention">
+            <field name="name">Installation poste EQ-0009 - configuration initiale</field>
+            <field name="equipement_id" ref="equip_009"/>
+            <field name="type_intervention">preventive</field>
+            <field name="technicien_id" ref="emp_ouattara"/>
+            <field name="date_debut">2024-03-20 08:00:00</field>
+            <field name="date_fin">2024-03-20 12:30:00</field>
+            <field name="cout">0</field>
+            <field name="description">Configuration initiale du poste : installation OS, logiciels métier, jonction domaine, VPN</field>
+            <field name="rapport">Windows 11 Pro installé, Odoo 18 client, antivirus, jonction domaine TPCI réussie.</field>
+            <field name="state">termine</field>
+        </record>
+
+    </data>
+</odoo>

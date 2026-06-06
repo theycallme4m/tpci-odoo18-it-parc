@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Rapport : Fiche individuelle équipement -->
+    <record id="report_equipement_action" model="ir.actions.report">
+        <field name="name">Fiche équipement</field>
+        <field name="model">it.equipement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">it_parc.report_equipement_template</field>
+        <field name="report_file">it_parc.report_equipement_template</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <!-- Rapport : Inventaire complet -->
+    <record id="report_inventaire_action" model="ir.actions.report">
+        <field name="name">Inventaire du parc informatique</field>
+        <field name="model">it.equipement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">it_parc.report_inventaire_template</field>
+        <field name="report_file">it_parc.report_inventaire_template</field>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <!-- Rapport : Historique interventions -->
+    <record id="report_interventions_action" model="ir.actions.report">
+        <field name="name">Rapport d'intervention</field>
+        <field name="model">it.intervention</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">it_parc.report_interventions_template</field>
+        <field name="report_file">it_parc.report_interventions_template</field>
+        <field name="binding_model_id" ref="model_it_intervention"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_inventaire_template">
+    <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2 class="text-primary text-center">Inventaire du Parc Informatique</h2>
+                <p class="text-center text-muted">
+                    TECHPARK CI — Généré le
+                    <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                </p>
+                <hr/>
+
+                <!-- Résumé par état -->
+                <div class="row mb-4">
+                    <t t-set="total" t-value="len(docs)"/>
+                    <t t-set="nb_affectes" t-value="len(docs.filtered(lambda e: e.state == 'affecte'))"/>
+                    <t t-set="nb_maintenance" t-value="len(docs.filtered(lambda e: e.state == 'maintenance'))"/>
+                    <t t-set="nb_retires" t-value="len(docs.filtered(lambda e: e.state == 'retire'))"/>
+                    <div class="col-3 text-center">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-body py-2">
+                                <h6>Total</h6><h4><t t-esc="total"/></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 text-center">
+                        <div class="card bg-success text-white">
+                            <div class="card-body py-2">
+                                <h6>Affectés</h6><h4><t t-esc="nb_affectes"/></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 text-center">
+                        <div class="card bg-warning text-dark">
+                            <div class="card-body py-2">
+                                <h6>Maintenance</h6><h4><t t-esc="nb_maintenance"/></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 text-center">
+                        <div class="card bg-danger text-white">
+                            <div class="card-body py-2">
+                                <h6>Retirés</h6><h4><t t-esc="nb_retires"/></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau inventaire -->
+                <table class="table table-sm table-bordered table-striped" style="font-size:0.78rem">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Réf.</th>
+                            <th>Nom</th>
+                            <th>Catégorie</th>
+                            <th>Marque / Modèle</th>
+                            <th>N° Série</th>
+                            <th>État</th>
+                            <th>Employé</th>
+                            <th>Département</th>
+                            <th>Localisation</th>
+                            <th>Fin garantie</th>
+                            <th>Coût maint.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="eq">
+                            <tr t-attf-style="color: #{eq.state == 'retire' and '#999' or 'inherit'}">
+                                <td><t t-esc="eq.reference"/></td>
+                                <td><t t-esc="eq.name"/></td>
+                                <td><t t-esc="eq.categorie_id.name or '-'"/></td>
+                                <td><t t-esc="(eq.marque or '') + ' ' + (eq.modele or '')"/></td>
+                                <td><t t-esc="eq.serial_number or '-'"/></td>
+                                <td>
+                                    <span t-attf-style="
+                                        background: #{eq.state == 'affecte' and '#28a745' or
+                                                     eq.state == 'maintenance' and '#ffc107' or
+                                                     eq.state == 'retire' and '#dc3545' or '#6c757d'};
+                                        color: white; padding: 2px 6px; border-radius: 4px; font-size:0.7rem">
+                                        <t t-esc="dict(eq._fields['state'].selection).get(eq.state)"/>
+                                    </span>
+                                </td>
+                                <td><t t-esc="eq.employee_id.name or '-'"/></td>
+                                <td><t t-esc="eq.department_id.name or '-'"/></td>
+                                <td><t t-esc="eq.localisation or '-'"/></td>
+                                <td t-attf-style="color: #{eq.jours_garantie &lt;= 30 and eq.state != 'retire' and 'red' or 'inherit'}">
+                                    <t t-esc="str(eq.date_garantie) if eq.date_garantie else '-'"/>
+                                </td>
+                                <td class="text-right"><t t-esc="'{:,.0f}'.format(eq.cout_total_maintenance or 0)"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-weight-bold bg-light">
+                            <td colspan="10" class="text-right">Total coûts maintenance (FCFA) :</td>
+                            <td class="text-right">
+                                <t t-esc="'{:,.0f}'.format(sum(docs.mapped('cout_total_maintenance')))"/>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+</odoo>

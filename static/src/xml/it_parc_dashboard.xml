@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+<t t-name="it_parc.Dashboard">
+    <div class="it-parc-dashboard o_action">
+
+        <!-- ============================================================ -->
+        <!--  Chargement                                                   -->
+        <!-- ============================================================ -->
+        <t t-if="!state.loaded">
+            <div class="it-parc-loading">
+                <i class="fa fa-spinner fa-spin fa-3x"/>
+                <p>Chargement du tableau de bord...</p>
+            </div>
+        </t>
+
+        <!-- ============================================================ -->
+        <!--  Contenu principal                                            -->
+        <!-- ============================================================ -->
+        <t t-if="state.loaded">
+
+            <!-- En-tête -->
+            <div class="it-parc-header">
+                <div class="it-parc-header-left">
+                    <i class="fa fa-desktop it-parc-header-icon"/>
+                    <div>
+                        <h1>Tableau de bord</h1>
+                        <p>Parc Informatique — TECHPARK CI</p>
+                    </div>
+                </div>
+                <div class="it-parc-header-right">
+                    <button class="btn btn-outline-primary btn-sm" t-on-click="() => this.openEquipements(false)">
+                        <i class="fa fa-list mr-1"/>Tous les équipements
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!--  KPIs (6 indicateurs)                                      -->
+            <!-- ========================================================= -->
+            <div class="it-parc-kpis">
+
+                <div class="it-parc-kpi it-parc-kpi-total" t-on-click="() => this.openEquipements(false)">
+                    <div class="it-parc-kpi-icon">
+                        <i class="fa fa-server"/>
+                    </div>
+                    <div class="it-parc-kpi-body">
+                        <div class="it-parc-kpi-value">
+                            <t t-esc="state.total_equipements"/>
+                        </div>
+                        <div class="it-parc-kpi-label">Total équipements</div>
+                    </div>
+                </div>
+
+                <div class="it-parc-kpi it-parc-kpi-affectes" t-on-click="() => this.openEquipements('affecte')">
+                    <div class="it-parc-kpi-icon">
+                        <i class="fa fa-user-circle"/>
+                    </div>
+                    <div class="it-parc-kpi-body">
+                        <div class="it-parc-kpi-value">
+                            <t t-esc="state.equipements_affectes"/>
+                        </div>
+                        <div class="it-parc-kpi-label">Affectés</div>
+                    </div>
+                </div>
+
+                <div class="it-parc-kpi it-parc-kpi-maintenance" t-on-click="() => this.openEquipements('maintenance')">
+                    <div class="it-parc-kpi-icon">
+                        <i class="fa fa-wrench"/>
+                    </div>
+                    <div class="it-parc-kpi-body">
+                        <div class="it-parc-kpi-value">
+                            <t t-esc="state.equipements_maintenance"/>
+                        </div>
+                        <div class="it-parc-kpi-label">En maintenance</div>
+                    </div>
+                </div>
+
+                <div class="it-parc-kpi it-parc-kpi-alertes" t-on-click="() => this.openAlertes()">
+                    <div class="it-parc-kpi-icon">
+                        <i class="fa fa-exclamation-triangle"/>
+                    </div>
+                    <div class="it-parc-kpi-body">
+                        <div class="it-parc-kpi-value">
+                            <t t-esc="state.garanties_expirantes"/>
+                        </div>
+                        <div class="it-parc-kpi-label">Garanties expirantes (30j)</div>
+                    </div>
+                </div>
+
+                <div class="it-parc-kpi it-parc-kpi-contrats" t-on-click="() => this.openContrats()">
+                    <div class="it-parc-kpi-icon">
+                        <i class="fa fa-file-text-o"/>
+                    </div>
+                    <div class="it-parc-kpi-body">
+                        <div class="it-parc-kpi-value">
+                            <t t-esc="state.contrats_expirant"/>
+                        </div>
+                        <div class="it-parc-kpi-label">Contrats expirant (60j)</div>
+                    </div>
+                </div>
+
+                <div class="it-parc-kpi it-parc-kpi-cout">
+                    <div class="it-parc-kpi-icon">
+                        <i class="fa fa-money"/>
+                    </div>
+                    <div class="it-parc-kpi-body">
+                        <div class="it-parc-kpi-value" style="font-size:1.4rem">
+                            <t t-esc="formatNumber(state.total_cout_maintenance)"/>
+                        </div>
+                        <div class="it-parc-kpi-label">Coût total maintenance (FCFA)</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ========================================================= -->
+            <!--  Graphique SVG : équipements par état                      -->
+            <!-- ========================================================= -->
+            <div class="it-parc-chart-section">
+                <h2 class="it-parc-section-title">
+                    <i class="fa fa-bar-chart mr-2"/>
+                    Répartition des équipements par état
+                </h2>
+                <div class="it-parc-chart-container">
+                    <t t-if="chartItems.length > 0">
+                        <svg t-att-width="svgWidth" height="260" class="it-parc-svg">
+                            <!-- Grille horizontale -->
+                            <line x1="30" y1="20" t-att-x2="svgWidth - 10" y2="20" stroke="#e0e0e0" stroke-width="1"/>
+                            <line x1="30" y1="65" t-att-x2="svgWidth - 10" y2="65" stroke="#e0e0e0" stroke-width="1"/>
+                            <line x1="30" y1="110" t-att-x2="svgWidth - 10" y2="110" stroke="#e0e0e0" stroke-width="1"/>
+                            <line x1="30" y1="155" t-att-x2="svgWidth - 10" y2="155" stroke="#e0e0e0" stroke-width="1"/>
+                            <line x1="30" y1="200" t-att-x2="svgWidth - 10" y2="200" stroke="#e0e0e0" stroke-width="1"/>
+
+                            <!-- Axe Y -->
+                            <line x1="35" y1="15" x2="35" y2="205" stroke="#ccc" stroke-width="1"/>
+                            <!-- Axe X -->
+                            <line x1="35" t-att-y1="205" t-att-x2="svgWidth - 10" y2="205" stroke="#ccc" stroke-width="1"/>
+
+                            <!-- Barres -->
+                            <t t-foreach="chartItems" t-as="item">
+                                <!-- Barre -->
+                                <rect
+                                    t-att-x="barX(item_index)"
+                                    t-att-y="barY(item)"
+                                    width="80"
+                                    t-att-height="item.height or 2"
+                                    t-att-fill="item.color"
+                                    rx="4" ry="4"
+                                    class="it-parc-bar"
+                                />
+                                <!-- Valeur au-dessus de la barre -->
+                                <text
+                                    t-att-x="labelX(item_index)"
+                                    t-att-y="barY(item) - 6"
+                                    text-anchor="middle"
+                                    font-size="14"
+                                    font-weight="bold"
+                                    t-att-fill="item.color"
+                                >
+                                    <t t-esc="item.count"/>
+                                </text>
+                                <!-- Label sous la barre -->
+                                <text
+                                    t-att-x="labelX(item_index)"
+                                    y="220"
+                                    text-anchor="middle"
+                                    font-size="12"
+                                    fill="#555"
+                                >
+                                    <t t-esc="item.label"/>
+                                </text>
+                            </t>
+                        </svg>
+                    </t>
+                    <t t-else="">
+                        <div class="it-parc-empty">
+                            <i class="fa fa-info-circle fa-2x"/>
+                            <p>Aucune donnée disponible</p>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+        </t>
+    </div>
+</t>
+
+</templates>

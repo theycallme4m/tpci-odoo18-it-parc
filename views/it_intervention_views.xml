@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_it_intervention_list" model="ir.ui.view">
+        <field name="name">it.intervention.list</field>
+        <field name="model">it.intervention</field>
+        <field name="arch" type="xml">
+            <list string="Interventions" decoration-success="state == 'termine'"
+                  decoration-warning="state == 'en_cours'"
+                  decoration-info="state == 'planifie'">
+                <field name="date_debut"/>
+                <field name="name"/>
+                <field name="equipement_id"/>
+                <field name="type_intervention" widget="badge"/>
+                <field name="technicien_id"/>
+                <field name="duree" string="Durée (h)"/>
+                <field name="cout"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'planifie'"
+                       decoration-warning="state == 'en_cours'"
+                       decoration-success="state == 'termine'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_it_intervention_form" model="ir.ui.view">
+        <field name="name">it.intervention.form</field>
+        <field name="model">it.intervention</field>
+        <field name="arch" type="xml">
+            <form string="Intervention">
+                <header>
+                    <button name="action_demarrer" string="Démarrer" type="object"
+                            invisible="state != 'planifie'" class="btn-primary"/>
+                    <button name="action_terminer" string="Terminer" type="object"
+                            invisible="state != 'en_cours'" class="btn-primary"/>
+                    <button name="action_planifier" string="Replanifier" type="object"
+                            invisible="state not in ('en_cours', 'termine')"/>
+                    <button name="action_print_rapport" string="Imprimer rapport" type="object"
+                            invisible="state != 'termine'" icon="fa-print"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="planifie,en_cours,termine"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Titre de l'intervention"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Équipement">
+                            <field name="equipement_id"/>
+                            <field name="type_intervention"/>
+                            <field name="technicien_id"/>
+                        </group>
+                        <group string="Planification">
+                            <field name="date_debut"/>
+                            <field name="date_fin"/>
+                            <field name="duree" readonly="1"/>
+                            <field name="cout"/>
+                        </group>
+                    </group>
+                    <group string="Description du problème">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Rapport d'intervention">
+                        <field name="rapport" nolabel="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue calendrier -->
+    <record id="view_it_intervention_calendar" model="ir.ui.view">
+        <field name="name">it.intervention.calendar</field>
+        <field name="model">it.intervention</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendrier des interventions"
+                      date_start="date_debut"
+                      date_stop="date_fin"
+                      color="type_intervention"
+                      mode="month">
+                <field name="name"/>
+                <field name="equipement_id"/>
+                <field name="technicien_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_it_intervention_search" model="ir.ui.view">
+        <field name="name">it.intervention.search</field>
+        <field name="model">it.intervention</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher interventions">
+                <field name="name"/>
+                <field name="equipement_id"/>
+                <field name="technicien_id"/>
+                <filter name="planifie" string="Planifiées" domain="[('state','=','planifie')]"/>
+                <filter name="en_cours" string="En cours" domain="[('state','=','en_cours')]"/>
+                <filter name="termine" string="Terminées" domain="[('state','=','termine')]"/>
+                <separator/>
+                <filter name="corrective" string="Correctives" domain="[('type_intervention','=','corrective')]"/>
+                <filter name="preventive" string="Préventives" domain="[('type_intervention','=','preventive')]"/>
+                <group expand="0" string="Regrouper par">
+                    <filter name="group_equipement" string="Équipement" context="{'group_by': 'equipement_id'}"/>
+                    <filter name="group_technicien" string="Technicien" context="{'group_by': 'technicien_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'type_intervention'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_it_intervention" model="ir.actions.act_window">
+        <field name="name">Interventions</field>
+        <field name="res_model">it.intervention</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="search_view_id" ref="view_it_intervention_search"/>
+    </record>
+
+</odoo>

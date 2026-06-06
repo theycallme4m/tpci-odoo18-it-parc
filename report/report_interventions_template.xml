@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_interventions_template">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="intv">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <h2 class="text-primary">Rapport d'Intervention</h2>
+                            <h3><t t-esc="intv.name"/></h3>
+                        </div>
+                        <div class="col-4 text-right">
+                            <span t-attf-class="badge badge-pill
+                                #{intv.state == 'termine' and 'badge-success' or
+                                  intv.state == 'en_cours' and 'badge-warning' or
+                                  'badge-info'}" style="font-size:1rem; padding:8px 16px;">
+                                <t t-esc="dict(intv._fields['state'].selection).get(intv.state)"/>
+                            </span>
+                        </div>
+                    </div>
+                    <hr/>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h4>Informations intervention</h4>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td class="font-weight-bold bg-light" style="width:45%">Équipement</td>
+                                    <td>
+                                        <t t-esc="intv.equipement_id.name"/>
+                                        (<t t-esc="intv.equipement_id.reference"/>)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold bg-light">Type</td>
+                                    <td><t t-esc="dict(intv._fields['type_intervention'].selection).get(intv.type_intervention)"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold bg-light">Technicien</td>
+                                    <td><t t-esc="intv.technicien_id.name or '-'"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <h4>Planification</h4>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td class="font-weight-bold bg-light" style="width:45%">Début</td>
+                                    <td><t t-esc="intv.date_debut and str(intv.date_debut) or '-'"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold bg-light">Fin</td>
+                                    <td><t t-esc="intv.date_fin and str(intv.date_fin) or '-'"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold bg-light">Durée</td>
+                                    <td><t t-esc="'{:.2f}'.format(intv.duree or 0)"/> heure(s)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold bg-light">Coût</td>
+                                    <td><t t-esc="'{:,.0f}'.format(intv.cout or 0)"/> FCFA</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <t t-if="intv.description">
+                        <h4>Description du problème</h4>
+                        <div class="p-3 bg-light rounded">
+                            <p><t t-esc="intv.description"/></p>
+                        </div>
+                    </t>
+
+                    <t t-if="intv.rapport">
+                        <h4 class="mt-3">Rapport technique</h4>
+                        <div class="p-3 bg-light rounded">
+                            <p><t t-esc="intv.rapport"/></p>
+                        </div>
+                    </t>
+
+                    <!-- Signature -->
+                    <div class="row mt-5">
+                        <div class="col-5">
+                            <p>Technicien responsable :</p>
+                            <div style="border-top: 1px solid #000; margin-top:50px; padding-top:5px">
+                                <t t-esc="intv.technicien_id.name or '___________________'"/>
+                            </div>
+                        </div>
+                        <div class="col-2"></div>
+                        <div class="col-5">
+                            <p>Responsable IT :</p>
+                            <div style="border-top: 1px solid #000; margin-top:50px; padding-top:5px">
+                                Signature / Cachet
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-muted text-right" style="font-size:0.8rem">
+                        Document généré le <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

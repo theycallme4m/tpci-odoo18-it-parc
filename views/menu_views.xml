@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================ -->
+    <!--  Menu racine                                                      -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_it_parc_root"
+              name="IT Parc"
+              sequence="90"
+              groups="it_parc.group_it_technicien"/>
+
+    <!-- ================================================================ -->
+    <!--  Tableau de bord                                                  -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_it_parc_dashboard"
+              name="Tableau de bord"
+              parent="menu_it_parc_root"
+              action="action_it_parc_dashboard"
+              sequence="1"
+              groups="it_parc.group_it_technicien"/>
+
+    <!-- ================================================================ -->
+    <!--  Équipements                                                      -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_it_equipements"
+              name="Équipements"
+              parent="menu_it_parc_root"
+              sequence="10"
+              groups="it_parc.group_it_technicien"/>
+
+    <menuitem id="menu_it_equipement_list"
+              name="Tous les équipements"
+              parent="menu_it_equipements"
+              action="action_it_equipement"
+              sequence="1"
+              groups="it_parc.group_it_technicien"/>
+
+    <menuitem id="menu_it_affectation"
+              name="Historique des affectations"
+              parent="menu_it_equipements"
+              action="action_it_affectation"
+              sequence="2"
+              groups="it_parc.group_it_manager"/>
+
+    <menuitem id="menu_it_categorie"
+              name="Catégories"
+              parent="menu_it_equipements"
+              action="action_it_categorie"
+              sequence="10"
+              groups="it_parc.group_it_manager"/>
+
+    <!-- ================================================================ -->
+    <!--  Maintenance                                                      -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_it_maintenance"
+              name="Maintenance"
+              parent="menu_it_parc_root"
+              sequence="20"
+              groups="it_parc.group_it_technicien"/>
+
+    <menuitem id="menu_it_intervention"
+              name="Interventions"
+              parent="menu_it_maintenance"
+              action="action_it_intervention"
+              sequence="1"
+              groups="it_parc.group_it_technicien"/>
+
+    <!-- ================================================================ -->
+    <!--  Contrats                                                         -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_it_contrats_root"
+              name="Contrats"
+              parent="menu_it_parc_root"
+              sequence="30"
+              groups="it_parc.group_it_manager"/>
+
+    <menuitem id="menu_it_contrat"
+              name="Contrats fournisseurs"
+              parent="menu_it_contrats_root"
+              action="action_it_contrat"
+              sequence="1"
+              groups="it_parc.group_it_manager"/>
+
+    <!-- ================================================================ -->
+    <!--  Alertes                                                          -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_it_alertes_root"
+              name="Alertes"
+              parent="menu_it_parc_root"
+              sequence="40"
+              groups="it_parc.group_it_manager"/>
+
+    <menuitem id="menu_it_alerte"
+              name="Alertes actives"
+              parent="menu_it_alertes_root"
+              action="action_it_alerte"
+              sequence="1"
+              groups="it_parc.group_it_manager"/>
+
+    <menuitem id="menu_it_scan_alertes"
+              name="Générer les alertes"
+              parent="menu_it_alertes_root"
+              action="action_wizard_scan_alertes"
+              sequence="2"
+              groups="it_parc.group_it_manager"/>
+
+    <!-- ================================================================ -->
+    <!--  Outils                                                           -->
+    <!-- ================================================================ -->
+    <menuitem id="menu_it_outils"
+              name="Outils"
+              parent="menu_it_parc_root"
+              sequence="50"
+              groups="it_parc.group_it_manager"/>
+
+    <menuitem id="menu_it_import_csv"
+              name="Importer équipements (CSV)"
+              parent="menu_it_outils"
+              action="action_wizard_import_csv"
+              sequence="1"
+              groups="it_parc.group_it_manager"/>
+
+</odoo>

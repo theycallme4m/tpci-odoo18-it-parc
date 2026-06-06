@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================ -->
+    <!--  Vue liste                                                        -->
+    <!-- ================================================================ -->
+    <record id="view_it_equipement_list" model="ir.ui.view">
+        <field name="name">it.equipement.list</field>
+        <field name="model">it.equipement</field>
+        <field name="arch" type="xml">
+            <list string="Équipements" decoration-danger="garantie_expirante == True"
+                  decoration-muted="state == 'retire'">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="categorie_id"/>
+                <field name="marque"/>
+                <field name="serial_number"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'brouillon'"
+                       decoration-success="state == 'affecte'"
+                       decoration-warning="state == 'maintenance'"
+                       decoration-danger="state == 'retire'"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="localisation"/>
+                <field name="date_garantie"/>
+                <field name="garantie_expirante" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!--  Vue kanban                                                       -->
+    <!-- ================================================================ -->
+    <record id="view_it_equipement_kanban" model="ir.ui.view">
+        <field name="name">it.equipement.kanban</field>
+        <field name="model">it.equipement</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column" default_group_by="state">
+                <field name="state"/>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="categorie_id"/>
+                <field name="employee_id"/>
+                <field name="date_garantie"/>
+                <field name="garantie_expirante"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_card #{record.garantie_expirante.value ? 'border-danger' : ''}">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <span class="text-muted o_kanban_record_subtitle">
+                                        <field name="reference"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="categorie_id"/>
+                                <br/>
+                                <field name="employee_id"/>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="date_garantie"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!--  Vue formulaire                                                   -->
+    <!-- ================================================================ -->
+    <record id="view_it_equipement_form" model="ir.ui.view">
+        <field name="name">it.equipement.form</field>
+        <field name="model">it.equipement</field>
+        <field name="arch" type="xml">
+            <form string="Équipement">
+                <header>
+                    <button name="action_affecter" string="Affecter" type="object"
+                            invisible="state != 'brouillon'"
+                            class="btn-primary"
+                            groups="it_parc.group_it_manager"/>
+                    <button name="action_maintenance" string="Mettre en maintenance" type="object"
+                            invisible="state not in ('affecte',)"
+                            groups="it_parc.group_it_manager"/>
+                    <button name="action_retirer" string="Retirer" type="object"
+                            invisible="state == 'retire'"
+                            groups="it_parc.group_it_manager"/>
+                    <button name="action_brouillon" string="Remettre en brouillon" type="object"
+                            invisible="state not in ('maintenance', 'retire')"
+                            groups="it_parc.group_it_manager"/>
+                    <button name="action_reaffecter" string="Réaffecter" type="object"
+                            invisible="state != 'affecte'"
+                            groups="it_parc.group_it_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="brouillon,affecte,maintenance,retire"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_interventions"
+                                class="oe_stat_button" icon="fa-wrench">
+                            <field name="nb_interventions" widget="statinfo" string="Interventions"/>
+                        </button>
+                    </div>
+
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" string="Équipement"/>
+                        <h1>
+                            <field name="name" placeholder="Nom de l'équipement"/>
+                        </h1>
+                        <h4 class="text-muted">
+                            <field name="reference" readonly="1"/>
+                        </h4>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="categorie_id"/>
+                            <field name="marque"/>
+                            <field name="modele"/>
+                            <field name="serial_number"/>
+                        </group>
+                        <group string="Affectation">
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="localisation"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Informations financières">
+                            <field name="date_achat"/>
+                            <field name="valeur_achat"/>
+                            <field name="cout_total_maintenance"/>
+                        </group>
+                        <group string="Garantie">
+                            <field name="date_garantie"/>
+                            <field name="jours_garantie"/>
+                            <field name="garantie_expirante" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+
+                    <group string="Description technique">
+                        <field name="description" nolabel="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Historique des affectations" name="affectations">
+                            <field name="affectation_ids" readonly="1">
+                                <list>
+                                    <field name="date_debut"/>
+                                    <field name="date_fin"/>
+                                    <field name="employee_id"/>
+                                    <field name="department_id"/>
+                                    <field name="motif"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Interventions" name="interventions">
+                            <field name="intervention_ids">
+                                <list>
+                                    <field name="date_debut"/>
+                                    <field name="name"/>
+                                    <field name="type_intervention"/>
+                                    <field name="technicien_id"/>
+                                    <field name="duree"/>
+                                    <field name="cout"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Contrats" name="contrats">
+                            <field name="contrat_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="fournisseur_id"/>
+                                    <field name="type_contrat"/>
+                                    <field name="date_fin"/>
+                                    <field name="jours_restants"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <!-- Actions rapides dans la barre de boutons -->
+                <div class="o_attachment_preview"/>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!--  Vue recherche                                                    -->
+    <!-- ================================================================ -->
+    <record id="view_it_equipement_search" model="ir.ui.view">
+        <field name="name">it.equipement.search</field>
+        <field name="model">it.equipement</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher équipements">
+                <field name="name" string="Nom / Référence" filter_domain="['|', ('name', 'ilike', self), ('reference', 'ilike', self)]"/>
+                <field name="serial_number"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="categorie_id"/>
+                <filter name="brouillon" string="Brouillon" domain="[('state','=','brouillon')]"/>
+                <filter name="affecte" string="Affectés" domain="[('state','=','affecte')]"/>
+                <filter name="maintenance" string="En maintenance" domain="[('state','=','maintenance')]"/>
+                <filter name="retire" string="Retirés" domain="[('state','=','retire')]"/>
+                <separator/>
+                <filter name="garantie_expirante" string="Garantie expirante (30j)" domain="[('garantie_expirante','=',True)]"/>
+                <group expand="0" string="Regrouper par">
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_categorie" string="Catégorie" context="{'group_by': 'categorie_id'}"/>
+                    <filter name="group_department" string="Département" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ================================================================ -->
+    <!--  Action principale                                                -->
+    <!-- ================================================================ -->
+    <record id="action_it_equipement" model="ir.actions.act_window">
+        <field name="name">Équipements</field>
+        <field name="res_model">it.equipement</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_it_equipement_search"/>
+    </record>
+
+    <!-- Actions rapides depuis la barre d'action -->
+    <record id="action_export_inventaire_excel" model="ir.actions.server">
+        <field name="name">Exporter inventaire (Excel)</field>
+        <field name="model_id" ref="model_it_equipement"/>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_export_inventaire_excel()</field>
+        <field name="groups_id" eval="[(4, ref('it_parc.group_it_manager'))]"/>
+    </record>
+
+    <record id="action_export_couts_excel" model="ir.actions.server">
+        <field name="name">Exporter coûts maintenance (Excel)</field>
+        <field name="model_id" ref="model_it_equipement"/>
+        <field name="binding_model_id" ref="model_it_equipement"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_export_couts_maintenance_excel()</field>
+        <field name="groups_id" eval="[(4, ref('it_parc.group_it_manager'))]"/>
+    </record>
+
+</odoo>

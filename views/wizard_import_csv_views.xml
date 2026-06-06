@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_wizard_import_csv_form" model="ir.ui.view">
+        <field name="name">wizard.import.csv.form</field>
+        <field name="model">wizard.import.csv</field>
+        <field name="arch" type="xml">
+            <form string="Import CSV d'équipements">
+                <sheet>
+                    <div class="alert alert-info" role="alert" invisible="state != 'input'">
+                        <p><strong>Format CSV attendu (colonnes) :</strong></p>
+                        <p><code>name;serial_number;categorie;marque;modele;localisation;date_achat;valeur_achat;date_garantie;description</code></p>
+                        <p>Les dates doivent être au format <strong>DD/MM/YYYY</strong> ou <strong>YYYY-MM-DD</strong>.</p>
+                        <p>Les doublons sont détectés par <strong>numéro de série</strong>.</p>
+                    </div>
+                    <group invisible="state != 'input'">
+                        <field name="fichier_csv" widget="binary" filename="nom_fichier"/>
+                        <field name="nom_fichier" invisible="1"/>
+                        <field name="separateur"/>
+                    </group>
+                    <group string="Résultat de l'import" invisible="state != 'done'">
+                        <field name="nb_crees" readonly="1" string="Équipements créés"/>
+                        <field name="nb_ignores" readonly="1" string="Ignorés (doublons)"/>
+                        <field name="nb_erreurs" readonly="1" string="Erreurs"/>
+                    </group>
+                    <group string="Rapport détaillé" invisible="state != 'done'">
+                        <field name="rapport" nolabel="1" readonly="1" widget="text"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_importer" string="Lancer l'import" type="object"
+                            invisible="state != 'input'" class="btn-primary"/>
+                    <button string="Fermer" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wizard_import_csv" model="ir.actions.act_window">
+        <field name="name">Importer équipements (CSV)</field>
+        <field name="res_model">wizard.import.csv</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

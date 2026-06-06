@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Catégorie de module -->
+        <record id="module_category_it_parc" model="ir.module.category">
+            <field name="name">IT Parc</field>
+            <field name="description">Gestion du parc informatique</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <!-- Groupe IT Technicien -->
+        <record id="group_it_technicien" model="res.groups">
+            <field name="name">IT Technicien</field>
+            <field name="category_id" ref="module_category_it_parc"/>
+            <field name="comment">Lecture et création d'interventions</field>
+        </record>
+
+        <!-- Groupe IT Manager -->
+        <record id="group_it_manager" model="res.groups">
+            <field name="name">IT Manager</field>
+            <field name="category_id" ref="module_category_it_parc"/>
+            <field name="implied_ids" eval="[(4, ref('group_it_technicien'))]"/>
+            <field name="comment">Accès complet au parc informatique</field>
+        </record>
+
+        <!-- Règles d'accès : IT Technicien - lecture seule sur équipements -->
+        <record id="rule_equipement_technicien" model="ir.rule">
+            <field name="name">Équipements : accès technicien</field>
+            <field name="model_id" ref="model_it_equipement"/>
+            <field name="groups" eval="[(4, ref('group_it_technicien'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <!-- Règles d'accès : IT Manager - accès complet -->
+        <record id="rule_equipement_manager" model="ir.rule">
+            <field name="name">Équipements : accès manager</field>
+            <field name="model_id" ref="model_it_equipement"/>
+            <field name="groups" eval="[(4, ref('group_it_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+    </data>
+</odoo>
