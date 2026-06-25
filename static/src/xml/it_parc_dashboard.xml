@@ -138,7 +138,7 @@
                             <line x1="35" t-att-y1="205" t-att-x2="svgWidth - 10" y2="205" stroke="#ccc" stroke-width="1"/>
 
                             <!-- Barres -->
-                            <t t-foreach="chartItems" t-as="item">
+                            <t t-foreach="chartItems" t-as="item" t-key="item.state">
                                 <!-- Barre -->
                                 <rect
                                     t-att-x="barX(item_index)"

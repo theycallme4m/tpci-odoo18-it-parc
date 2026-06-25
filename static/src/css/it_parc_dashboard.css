@@ -5,8 +5,8 @@
 .it-parc-dashboard {
     padding: 24px;
     background: #f5f7fa;
-    min-height: calc(100vh - 60px);
     font-family: 'Roboto', sans-serif;
+    overflow-y: auto;
 }
 
 /* -------------------------------------------------------------- */
